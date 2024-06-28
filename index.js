@@ -1,5 +1,6 @@
 import express from "express";
 import recipeRouter from "./routes/recipe.js";
+import categoryRouter from "./routes/category.js";
 import mongoose from "mongoose";
 
 
@@ -31,9 +32,11 @@ app.use(express.json());
 
 //Use route
 app.use(recipeRouter);
+app.use (categoryRouter);
 
 //Listen for incoming requests
-app.listen (3000, () => {
-    console.log('App listening on port 3000')
+const port = process.env.PORT|| 3000;
+app.listen (port, () => {
+    console.log(`App listening on port 3000 ${port}`);
 });
 
