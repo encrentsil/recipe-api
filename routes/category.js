@@ -9,4 +9,6 @@ categoryRouter.get('/categories', getCategories)
 
 categoryRouter.post('/categories', postCategory)
 
+
+
 export default categoryRouter;
