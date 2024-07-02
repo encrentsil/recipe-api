@@ -3,7 +3,10 @@ import { CategoryModel } from "../models/category.js";
 export const getCategories = async (req,res,next) => {
     try {
         //Get all Categories
-        const allCategories = await CategoryModel.find();
+        const allCategories = await CategoryModel
+        .find({name: search})
+        .limit(limit)
+        .skip(skip);
         //Return response
         res.status(200).json(allCategories);
     } catch (error) {
@@ -14,7 +17,11 @@ export const getCategories = async (req,res,next) => {
 export const postCategory = async (req,res,next) => {
     
         try {
-            const newCategory = await CategoryModel.create(req.body);
+            //Add category to database
+            const newCategory = await CategoryModel.create({...req.body,
+                image: req.file.filename
+            });
+            //Return response
            res.status(201).json(newCategory)
         } catch (error) {
             next (error)
