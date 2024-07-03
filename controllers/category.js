@@ -2,9 +2,18 @@ import { CategoryModel } from "../models/category.js";
 
 export const getCategories = async (req,res,next) => {
     try {
-        //Get all Categories
+        //Get query params
+        const {limit, skip, filter, fields} = req.query
+
+        // Parse filter and fields (handle undefined)
+    const parsedFilter = filter ? JSON.parse(filter) : {};
+    
+    const parsedFields = fields ? JSON.parse(fields) : {};
+        
+    //Get all Categories
         const allCategories = await CategoryModel
-        .find({name: search})
+        .find(parsedFilter)
+        .select(parsedFields)
         .limit(limit)
         .skip(skip);
         //Return response
@@ -28,3 +37,7 @@ export const postCategory = async (req,res,next) => {
         }
     
 }
+
+
+// We use the ternary operator (condition ? valueIfTrue : valueIfFalse) to handle the undefined case for filter and fields.
+// If filter or fields is undefined, we default to an empty object ({}).
