@@ -1,9 +1,13 @@
 import express from "express";
 import cors from "cors";
-import recipeRouter from "./routes/recipe.js";
-import categoryRouter from "./routes/category.js";
 import mongoose from "mongoose";
 import expressOasGenerator from "express-oas-generator";
+import session from "express-session";
+import recipeRouter from "./routes/recipe.js";
+import categoryRouter from "./routes/category.js";
+import userRouter from "./routes/user.js";
+
+
 
 
 
@@ -22,7 +26,13 @@ expressOasGenerator.handleResponses(app, {
 //Apply middlewares
 app.use(cors());
 app.use(express.json());
-app.use(express.static('uploads'));
+app.use(express.static('uploads'));//because it was local
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}))
 
 // //Define routes
 // app.get('/',(req,res)=> {
@@ -44,8 +54,10 @@ app.use(express.static('uploads'));
 //Use route
 app.use(recipeRouter);
 app.use (categoryRouter);
+app.use(userRouter);
 expressOasGenerator.handleRequests();
 app.use((req,res) => res.redirect('/api-docs/'));
+
 
 //Listen for incoming requests
 const port = process.env.PORT|| 3000;
