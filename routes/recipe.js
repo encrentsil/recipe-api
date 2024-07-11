@@ -14,9 +14,9 @@ recipeRouter.get('/recipes', getRecipes);
 
 recipeRouter.post('/recipes',checkUserSession, remoteUpload.single('image') ,postRecipes,);
 
-recipeRouter.patch('/recipes/:id', patchRecipe);
+recipeRouter.patch('/recipes/:id', patchRecipe, checkUserSession);
 
-recipeRouter.delete('/recipes/:id', deleteRecipe);
+recipeRouter.delete('/recipes/:id', deleteRecipe, checkUserSession);
 
 recipeRouter.get('/recipes/:id', getRecipe);
 

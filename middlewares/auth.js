@@ -1,3 +1,4 @@
+//Checking if there is a user session
 export const checkUserSession = (req,res,next) => {
     if (req.session.user){
         next();
